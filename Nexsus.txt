@@ -1,0 +1,42 @@
+# apt-get update
+# apt-get install openjdk-8-jdk
+
+# cd /opt
+# wget http://download.sonatype.com/nexus/3/nexus-3.22.0-02-unix.tar.gz
+# wget https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.29.2-02-unix.tar.gz
+# tar xvfz http://download.sonatype.com/nexus/3/nexus-3.22.0-02-unix.tar.gz
+# mv nexus-3.22.0-02 nexus
+# adduser nexus
+# chown -R nexus:nexus /opt/nexus
+# chown -R nesxus:nexus /opt/sonatype-work
+
+# nano /opt/nexus/bin/nexus.rc
+     run_as_user="nexus"
+# nano /opt/nexus/bin/nexus.voptions
+      change to 512m
+# nano /etc/systemd/system/nexus.service
+
+[until]
+Description=nexus service
+After=network.target
+
+[Service]
+type=forking
+LimitNOFILE=65536
+User=nexus
+Group=nexus
+ExecStart=/opt/nexus/bin/nexus start
+ExecStop=/opt/nexus/bin/nexus stop
+User=nexus
+Restart=no-abort
+
+[Install]
+WantedBy=multi-user.target
+
+systemctl enable nexus
+systemctl start nexus
+systemctl status nexus
+
+*** nexus log (tail -f /opt/sonatype-work/nexus3/log/nexus.log)
+http://IP/DNS:8081
+admin password: /opt/sonatype-work/nexus3/admin.password (abdfdhqeruwerhi)
