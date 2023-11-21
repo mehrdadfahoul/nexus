@@ -2,7 +2,6 @@
 # apt-get install openjdk-8-jdk
 
 # cd /opt
-# wget http://download.sonatype.com/nexus/3/nexus-3.22.0-02-unix.tar.gz
 # wget https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.29.2-02-unix.tar.gz
 # tar xvfz http://download.sonatype.com/nexus/3/nexus-3.22.0-02-unix.tar.gz
 # mv nexus-3.22.0-02 nexus
@@ -12,16 +11,14 @@
 
 # nano /opt/nexus/bin/nexus.rc
      run_as_user="nexus"
-# nano /opt/nexus/bin/nexus.voptions
-      change to 512m
 # nano /etc/systemd/system/nexus.service
 
-[until]
+[Unit]
 Description=nexus service
 After=network.target
 
 [Service]
-type=forking
+Type=forking
 LimitNOFILE=65536
 User=nexus
 Group=nexus
